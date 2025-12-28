@@ -1,7 +1,15 @@
-from app.app import create_app
-from app.extensions.socketio import socketio
+import os
+from app import create_app
+APP_ENV = os.getenv("APP_ENV", "development")
 
-app = create_app()
+if APP_ENV == "prod":
+    app = create_app("app.config.prod.ProdConfig")
+else:
+    app = create_app("app.config.dev.DevConfig")
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=5000)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", 5000)),
+        debug=app.config["DEBUG"]
+    )
