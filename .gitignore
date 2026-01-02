@@ -3,3 +3,11 @@ venv/
 
 # Environment variables
 .env
+
+#Pycache
+__pycache__/
+*.pyc
+
+#Ml
+*h5
+*pkl
