@@ -10,6 +10,8 @@ class BaseConfig:
     DEBUG = False
     TESTING = False
 
+    PORT = int(os.getenv("PORT", 5000))
+
     # Database
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
@@ -20,17 +22,20 @@ class BaseConfig:
     #OSRM 
     OSRM_BASE_URL = os.getenv(
         "OSRM_BASE_URL",
-        "http://localhost:5000"
+
+        "https://router.project-osrm.org"
     )
     OSRM_PROFILE = "driving"
     OSRM_TIMEOUT_SECONDS = 5
 
     #Weather
-    WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
+    OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
     HYDROLOGY_MODE = "SIMULATED"
-
-    # SocketIO
-    SOCKETIO_MESSAGE_QUEUE = None
 
     # Environment
     ENV = os.getenv("FLASK_ENV", "development")
+
+    #ML
+    ML_MODEL_PATH = os.getenv("ML_MODEL_PATH")
+    ML_SCALER_PATH = os.getenv("ML_SCALER_PATH")
+
