@@ -1,11 +1,7 @@
 import os
-from app import create_app
-APP_ENV = os.getenv("APP_ENV", "development")
+from app.app import create_app
 
-if APP_ENV == "prod":
-    app = create_app("app.config.prod.ProdConfig")
-else:
-    app = create_app("app.config.dev.DevConfig")
+app = create_app()
 
 if __name__ == "__main__":
     app.run(
