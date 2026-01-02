@@ -1,20 +1,17 @@
 from flask import Flask
-from .config.dev import DevConfig
-from .extensions.db import db
-from .extensions.migrate import migrate
-from .extensions.socketio import socketio
-from .routes import register_routes
-from .jobs.risk_evaluator import start_scheduler
+from app.config import get_config
+from app.extensions import db, migrate
+from app.extensions.ml import load_ml_assets
+
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(DevConfig)
+    app.config.from_object(get_config())
 
     db.init_app(app)
     migrate.init_app(app, db)
-    socketio.init_app(app, cors_allowed_origins="*")
 
-    register_routes(app)
-    start_scheduler(app)
+    with app.app_context():
+        load_ml_assets(app)
 
     return app
