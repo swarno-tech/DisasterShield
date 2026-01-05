@@ -30,7 +30,7 @@ class BaseConfig:
 
     #Weather
     OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
-    HYDROLOGY_MODE = "SIMULATED"
+    HYDROLOGY_MODE = "DERIVED"
 
     # Environment
     ENV = os.getenv("FLASK_ENV", "development")

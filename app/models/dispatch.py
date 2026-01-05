@@ -22,7 +22,7 @@ class Dispatch(db.Model):
 
     status = db.Column(
         db.String(20),
-        default="DISPATCHED"
+        default="DISPATCH"
     )
 
     created_at = db.Column(
