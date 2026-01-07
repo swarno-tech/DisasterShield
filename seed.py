@@ -1,6 +1,7 @@
 from app import create_app
 from app.extensions import db
 from app.models.zone import Zone
+from app.models.user import User
 from app.models.resource import Resource
 
 
@@ -71,6 +72,24 @@ def seed_zones():
 
     db.session.commit()
     print("Zones seeded")
+
+def seed_users():
+    zones = Zone.query.all()
+
+    for zone in zones:
+        for i in range(2):  # 2 users per zone
+            user = User(
+                name=f"Resident {i+1} of {zone.name}",
+                phone_number="+91XXXXXXXXXX",   # demo
+                telegram_chat_id=923312153,
+                latitude=zone.latitude,
+                longitude=zone.longitude,
+                zone_id=zone.id,
+            )
+            db.session.add(user)
+
+    db.session.commit()
+    print(" Users seeded")
 
 
 def seed_resources():
@@ -201,6 +220,7 @@ def run_seed():
     app = create_app()
     with app.app_context():
         seed_zones()
+        seed_users()
         seed_resources()
 
 
