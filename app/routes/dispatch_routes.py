@@ -1,18 +1,14 @@
 from flask import Blueprint, jsonify
-from app.models.resource import Resource
+from app.models.dispatch import Dispatch
 
-resource_bp = Blueprint("resources", __name__)
+dispatch_bp = Blueprint("dispatch", __name__)
 
 
-@resource_bp.route("", methods=["GET"])
-def list_resources():
-    resources = Resource.query.all()
+@dispatch_bp.route("/<int:distress_id>", methods=["GET"])
+def get_dispatch(distress_id):
+    dispatch = Dispatch.query.filter_by(distress_id=distress_id).first_or_404()
 
-    return jsonify([
-        {
-            "id": r.id,
-            "latitude": r.latitude,
-            "longitude": r.longitude,
-            "available": r.is_available
-        } for r in resources
-    ])
+    return jsonify({
+        "status": dispatch.status,
+        "eta_minutes": dispatch.eta_minutes
+    })
