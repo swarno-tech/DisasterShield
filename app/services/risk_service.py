@@ -1,13 +1,15 @@
+from flask import current_app
 from app.extensions import db
 from app.models.env_data import EnvData
 from app.models.zone import Zone
-from app.extensions.ml import ml_model, ml_scaler
+from app.extensions.ml import load_ml_assets, ml_model, ml_scaler
 from app.ml.preprocessing import prepare_lstm_input
 from app.services.alert_services import trigger_alert
 
 
 def evaluate_zone_risk(zone_id, timesteps=6):
     zone = Zone.query.get_or_404(zone_id)
+    load_ml_assets(current_app)
 
     records = (
         EnvData.query
