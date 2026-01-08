@@ -14,7 +14,7 @@ TWILIO_FROM_NUMBER = os.getenv("TWILIO_FROM_NUMBER")
 # -------- TELEGRAM CONFIG (secret only) --------
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-
+demo_phone = "+91XXXXXXXXXX"
 
 
 # -------- MAIN ENTRY --------
@@ -34,10 +34,10 @@ def trigger_alert(zone):
 
     for user in users:
         if user.phone_number:
-            send_sms(user.phone_number, message)
+            send_sms(demo_phone, message)
 
         if user.telegram_chat_id:
-            send_telegram(user.telegram_chat_id, message)
+            send_telegram(TELEGRAM_CHAT_ID, message)
 
 
 # -------- MESSAGE FORMAT --------
