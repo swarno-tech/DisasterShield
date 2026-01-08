@@ -4,6 +4,7 @@ from app.config import get_config
 from app.extensions import db, migrate
 from app.routes import register_routes
 from app.extensions.ml import load_ml_assets
+from app.jobs.scheduler import init_scheduler
 
 def create_app():
     app = Flask(__name__)
@@ -13,10 +14,12 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
+
+    from app import models
     
     register_routes(app)
 
-    @app.route("/health", methods=["GET"])
+    @app.route("/api/health", methods=["GET"])
     def health():
         return {"status": "OK", "service": "DisasterShield"}, 200
 
@@ -25,6 +28,9 @@ def create_app():
         return {"error": "Not Found"}, 404
     
     if not app.config.get("SKIP_ML_LOAD", False):
-        load_ml_assets(app)
+        with app.app_context():
+            load_ml_assets(app)
+    
+    init_scheduler(app)
 
     return app

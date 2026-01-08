@@ -1,4 +1,4 @@
-from app import create_app
+from app.app import create_app
 from app.extensions import db
 from app.models.zone import Zone
 from app.models.user import User
@@ -75,18 +75,24 @@ def seed_zones():
 
 def seed_users():
     zones = Zone.query.all()
+    base_telegram_id = 923312153
 
     for zone in zones:
         for i in range(2):  # 2 users per zone
-            user = User(
+            phone = f"+91{9000000000 + zone.id*10 + i}"
+
+            if User.query.filter_by(phone_number=phone).first():
+                continue
+
+            users = User(
                 name=f"Resident {i+1} of {zone.name}",
-                phone_number="+91XXXXXXXXXX",   # demo
-                telegram_chat_id=923312153,
+                phone_number=phone,   # demo
+                telegram_chat_id=base_telegram_id + (zone.id * 100) + i,
                 latitude=zone.latitude,
                 longitude=zone.longitude,
                 zone_id=zone.id,
             )
-            db.session.add(user)
+            db.session.add(users)
 
     db.session.commit()
     print(" Users seeded")

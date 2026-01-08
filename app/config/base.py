@@ -35,7 +35,9 @@ class BaseConfig:
     # Environment
     ENV = os.getenv("FLASK_ENV", "development")
 
-    #ML
-    ML_MODEL_PATH = os.getenv("ML_MODEL_PATH")
-    ML_SCALER_PATH = os.getenv("ML_SCALER_PATH")
+    # ML
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, ".."))
 
+    ML_MODEL_PATH = os.path.join(PROJECT_ROOT, "ml", "flood_lstm_risk_model.h5")
+    ML_SCALER_PATH = os.path.join(PROJECT_ROOT, "ml", "scaler.pkl")

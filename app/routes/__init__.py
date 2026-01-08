@@ -4,6 +4,7 @@ from .risk_routes import risk_bp
 from .distress_routes import distress_bp
 from .resource_routes import resource_bp
 from .dispatch_routes import dispatch_bp
+from .user_routes import user_bp
 
 
 def register_routes(app):
@@ -13,3 +14,4 @@ def register_routes(app):
     app.register_blueprint(distress_bp, url_prefix="/api/distress")
     app.register_blueprint(resource_bp, url_prefix="/api/resources")
     app.register_blueprint(dispatch_bp, url_prefix="/api/dispatch")
+    app.register_blueprint(user_bp, url_prefix="/api/users")
