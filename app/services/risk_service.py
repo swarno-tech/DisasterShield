@@ -9,12 +9,11 @@ from app.services.alert_services import trigger_alert
 
 def evaluate_zone_risk(zone_id, timesteps=6):
     zone = Zone.query.get_or_404(zone_id)
-    load_ml_assets(current_app)
 
     records = (
         EnvData.query
         .filter_by(zone_id=zone_id)
-        .order_by(EnvData.recorded_at.asc())
+        .order_by(EnvData.collected_at.asc())
         .all()
     )
 

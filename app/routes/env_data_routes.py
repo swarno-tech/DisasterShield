@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models.env_data import EnvData
+from app.services.risk_service import evaluate_zone_risk
 
 env_data_bp = Blueprint("env_data", __name__)
 
@@ -20,5 +21,6 @@ def add_env_data():
 
     db.session.add(record)
     db.session.commit()
+    evaluate_zone_risk(record.zone_id)
 
     return jsonify({"message": "Env data added"}), 201

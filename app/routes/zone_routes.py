@@ -4,7 +4,7 @@ from app.models.zone import Zone
 
 zone_bp = Blueprint("zones", __name__)
 
-@zone_bp.route("", methods=["POST"])
+@zone_bp.route("/", methods=["POST"])
 def create_zone():
     data = request.get_json()
 
@@ -17,7 +17,6 @@ def create_zone():
         name=data["name"],
         latitude=data["latitude"],
         longitude=data["longitude"],
-        radius_km=data.get("radius_km", 2.0)
     )
 
     db.session.add(zone)
@@ -28,7 +27,7 @@ def create_zone():
         "zone_id": zone.id
     }), 201
 
-@zone_bp.route("", methods=["GET"])
+@zone_bp.route("/", methods=["GET"])
 def list_zones():
     zones = Zone.query.all()
 
@@ -39,7 +38,6 @@ def list_zones():
             "name": z.name,
             "latitude": z.latitude,
             "longitude": z.longitude,
-            "radius_km": z.radius_km,
             "risk_level": z.risk_level
         })
 
@@ -54,6 +52,5 @@ def get_zone(zone_id):
         "name": zone.name,
         "latitude": zone.latitude,
         "longitude": zone.longitude,
-        "radius_km": zone.radius_km,
         "risk_level": zone.risk_level
     }), 200
