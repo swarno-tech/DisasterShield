@@ -11,6 +11,7 @@ def list_resources():
     return jsonify([
         {
             "id": r.id,
+            "name": r.name,
             "latitude": r.latitude,
             "longitude": r.longitude,
             "available": r.is_available

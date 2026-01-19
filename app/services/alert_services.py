@@ -4,6 +4,9 @@ from datetime import datetime
 from flask import current_app
 from twilio.rest import Client
 
+from app.extensions import db
+from app.models.alert_response import AlertResponse
+from app.services.alert_simulator import simulate_alert_responses
 from app.models.user import User
 
 # -------- TWILIO CONFIG (secrets only) --------
@@ -30,14 +33,23 @@ def trigger_alert(zone):
         )
         return
 
+    db.session.commit()
+
     message = format_alert(zone)
 
     for user in users:
         if user.phone_number:
-            send_sms(demo_phone, message)
+            try:
+                send_sms(demo_phone, message)
+            except Exception as e:
+                current_app.logger.error(
+                    f"Failed to send SMS to {user.phone_number}: {str(e)}"
+                )
 
         if user.telegram_chat_id:
             send_telegram(TELEGRAM_CHAT_ID, message)
+
+    simulate_alert_responses(zone)
 
 
 # -------- MESSAGE FORMAT --------

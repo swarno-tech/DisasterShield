@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.extensions import db
 from app.models.zone import Zone
+from app.services.alert_services import trigger_alert
 
 zone_bp = Blueprint("zones", __name__)
 
@@ -54,3 +55,16 @@ def get_zone(zone_id):
         "longitude": zone.longitude,
         "risk_level": zone.risk_level
     }), 200
+
+@zone_bp.route("/<int:zone_id>/risk/high", methods=["POST"])
+def force_high_risk(zone_id):
+    zone = Zone.query.get_or_404(zone_id)
+    zone.risk_level = "HIGH"
+    db.session.commit()
+
+    trigger_alert(zone)
+
+    return jsonify({
+        "message": "Zone risk manually set to HIGH",
+        "zone_id": zone.id
+    })
