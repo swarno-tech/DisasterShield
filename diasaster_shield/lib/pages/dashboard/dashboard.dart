@@ -31,7 +31,7 @@ class _MyDashboardState extends State<MyDashboard> {
       body: Consumer<DashboardProvider>(
         builder: (_, dashprovider, __) {
           print(dashprovider.zones);
-          return SafeArea(
+          return dashprovider.isLoading ? Center(child: CircularProgressIndicator()): SafeArea(
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
