@@ -1,17 +1,19 @@
-from flask_apscheduler import APScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from app.jobs.risk_evaluator_job import run_risk_evaluation
 
-scheduler = APScheduler()
+scheduler = BackgroundScheduler()
 
 def init_scheduler(app):
-    scheduler.init_app(app)
+    def job_wrapper():
+        with app.app_context():
+            run_risk_evaluation()
 
     scheduler.add_job(
-        id="risk_evaluation_job",
-        func=run_risk_evaluation,
+        job_wrapper,
         trigger="interval",
-        minutes=10,  # every 10 minutes
-        replace_existing=True
+        minutes=10,
+        id="risk_evaluation_job",
+        replace_existing=True,
     )
 
     scheduler.start()
