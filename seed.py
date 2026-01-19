@@ -78,7 +78,7 @@ def seed_users():
     base_telegram_id = 923312153
 
     for zone in zones:
-        for i in range(2):  # 2 users per zone
+        for i in range(10):  # 10 users per zone
             phone = f"+91{9000000000 + zone.id*10 + i}"
 
             if User.query.filter_by(phone_number=phone).first():

@@ -6,7 +6,7 @@ from app.services.risk_service import evaluate_zone_risk
 env_data_bp = Blueprint("env_data", __name__)
 
 
-@env_data_bp.route("", methods=["POST"])
+@env_data_bp.route("/", methods=["POST"])
 def add_env_data():
     data = request.get_json()
 
