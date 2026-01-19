@@ -1,4 +1,6 @@
+import 'package:diasaster_shield/main.dart';
 import 'package:diasaster_shield/utils/datetime.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
@@ -48,9 +50,20 @@ class MyAppBar extends StatelessWidget {
               ),
             ],
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [Text(dt.date), Text(dt.time)],
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [Text(dt.date), Text(dt.time)],
+              ),
+              const SizedBox(width: 20),
+              GestureDetector(
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
+                },
+                child: Icon(Icons.logout, size: 24),
+              ),
+            ],
           ),
         ],
       ),
