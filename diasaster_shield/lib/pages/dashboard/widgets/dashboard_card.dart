@@ -1,8 +1,10 @@
 import 'package:diasaster_shield/pages/dashboard/widgets/dashboard_stat_card.dart';
+import 'package:diasaster_shield/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 
 class DashboardCards extends StatelessWidget {
-  const DashboardCards({super.key});
+  final DashboardProvider dashboardProvider;
+  const DashboardCards({super.key, required this.dashboardProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +13,8 @@ class DashboardCards extends StatelessWidget {
         Expanded(
           child: DashboardStatCard(
             title: "High Risk Zones",
-            value: 3,
-            total: 5,
+            value: dashboardProvider.getNumberOfHighZones(),
+            total: dashboardProvider.zones.length,
             icon: Icons.warning_rounded,
             iconBgColor: Colors.red.shade100,
             iconColor: Colors.red,
@@ -33,8 +35,8 @@ class DashboardCards extends StatelessWidget {
         Expanded(
           child: DashboardStatCard(
             title: "Open Distress",
-            value: 1,
-            total: 3,
+            value: dashboardProvider.cntDispathced,
+            total: dashboardProvider.resources.length,
             icon: Icons.warning_amber_rounded,
             iconBgColor: Colors.yellow.shade100,
             iconColor: Colors.yellow,
@@ -44,8 +46,8 @@ class DashboardCards extends StatelessWidget {
         Expanded(
           child: DashboardStatCard(
             title: "Available Resources",
-            value: 3,
-            total: 5,
+            value: dashboardProvider.calCulateAvailableResources(),
+            total: dashboardProvider.resources.length,
             icon: Icons.local_shipping_rounded,
             iconBgColor: Colors.green.shade100,
             iconColor: Colors.green,

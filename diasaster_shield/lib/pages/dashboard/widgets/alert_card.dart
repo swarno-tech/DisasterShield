@@ -1,10 +1,27 @@
+import 'package:diasaster_shield/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 
 class AlertCard extends StatelessWidget {
-  const AlertCard({super.key});
+  final DashboardProvider dashboardProvider;
+  final int index;
+  const AlertCard({
+    super.key,
+    required this.dashboardProvider,
+    required this.index,
+  });
+  String getZoneNameById(int zoneId) {
+    try {
+      return dashboardProvider.zones.firstWhere((z) => z.id == zoneId).name;
+    } catch (e) {
+      return "Unknown Zone";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final totalresponse =
+        dashboardProvider.alertList[index].total -
+        dashboardProvider.alertList[index].no_reply;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -19,7 +36,7 @@ class AlertCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                children: const [
+                children: [
                   Icon(
                     Icons.warning_amber_rounded,
                     color: Colors.orange,
@@ -27,7 +44,7 @@ class AlertCard extends StatelessWidget {
                   ),
                   SizedBox(width: 6),
                   Text(
-                    "Andheri East",
+                    getZoneNameById(dashboardProvider.alertList[index].id),
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -55,13 +72,18 @@ class AlertCard extends StatelessWidget {
           /// Response rate
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [Text("Response Rate"), Text("21.4%")],
+            children: [
+              Text("Response Rate"),
+              Text(
+                "${(totalresponse / dashboardProvider.alertList[index].total) * 100}%",
+              ),
+            ],
           ),
           const SizedBox(height: 6),
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: LinearProgressIndicator(
-              value: 0.214,
+              value: (totalresponse / dashboardProvider.alertList[index].total),
               minHeight: 8,
               backgroundColor: Color(0xFFE0E0E0),
               valueColor: AlwaysStoppedAnimation(Colors.black),
@@ -72,11 +94,11 @@ class AlertCard extends StatelessWidget {
 
           /// Response stats
           Row(
-            children: const [
+            children: [
               Expanded(
                 child: _ResponseBox(
                   label: "Safe",
-                  count: "342",
+                  count: dashboardProvider.alertList[index].safe.toString(),
                   bgColor: Color(0xFFEFFAF2),
                   iconColor: Colors.green,
                   icon: Icons.check_circle_outline,
@@ -86,7 +108,7 @@ class AlertCard extends StatelessWidget {
               Expanded(
                 child: _ResponseBox(
                   label: "Help",
-                  count: "87",
+                  count: dashboardProvider.alertList[index].help.toString(),
                   bgColor: Color(0xFFFFF1F0),
                   iconColor: Colors.red,
                   icon: Icons.error_outline,
@@ -96,7 +118,7 @@ class AlertCard extends StatelessWidget {
               Expanded(
                 child: _ResponseBox(
                   label: "No Reply",
-                  count: "1571",
+                  count: dashboardProvider.alertList[index].no_reply.toString(),
                   bgColor: Color(0xFFF5F5F5),
                   iconColor: Colors.grey,
                   icon: Icons.close_rounded,
@@ -109,11 +131,11 @@ class AlertCard extends StatelessWidget {
 
           /// Footer
           Row(
-            children: const [
+            children: [
               Icon(Icons.message_outlined, size: 16, color: Colors.grey),
               SizedBox(width: 6),
               Text(
-                "2,000 total messages sent",
+                "${dashboardProvider.alertList[index].total} total messages sent",
                 style: TextStyle(color: Colors.grey),
               ),
             ],

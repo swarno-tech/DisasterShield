@@ -1,4 +1,4 @@
-import 'package:diasaster_shield/pages/dashboard/provider/dashboard_provider.dart';
+import 'package:diasaster_shield/provider/dashboard_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

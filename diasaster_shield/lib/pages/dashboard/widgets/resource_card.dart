@@ -131,7 +131,7 @@ class _StatusChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: isDispatched ? Colors.green.shade300 : Colors.red.shade300,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

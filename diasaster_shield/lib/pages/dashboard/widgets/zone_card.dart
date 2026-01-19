@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum ZoneSeverity { critical, high }
+enum ZoneSeverity { critical, high, low }
 
 class ZoneCard extends StatelessWidget {
   final String title;
@@ -21,6 +21,7 @@ class ZoneCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isCritical = severity == ZoneSeverity.critical;
+    final bool isHigh = severity == ZoneSeverity.high;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -48,7 +49,7 @@ class ZoneCard extends StatelessWidget {
                   ),
                 ],
               ),
-              _SeverityChip(isCritical: isCritical),
+              _SeverityChip(isCritical: isCritical, isHigh: isHigh),
             ],
           ),
 
@@ -80,19 +81,28 @@ class ZoneCard extends StatelessWidget {
 
 class _SeverityChip extends StatelessWidget {
   final bool isCritical;
+  final bool isHigh;
 
-  const _SeverityChip({required this.isCritical});
+  const _SeverityChip({required this.isCritical, required this.isHigh});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: isCritical ? Colors.red : Colors.black,
+        color: isCritical
+            ? Colors.red
+            : isHigh
+            ? Colors.deepOrange
+            : Colors.orange,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        isCritical ? "CRITICAL" : "HIGH",
+        isCritical
+            ? "CRITICAL"
+            : isHigh
+            ? "HIGH"
+            : "LOW",
         style: const TextStyle(
           color: Colors.white,
           fontSize: 12,

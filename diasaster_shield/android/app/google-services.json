@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "849236471189",
+    "project_id": "disaster-shiled-73810",
+    "storage_bucket": "disaster-shiled-73810.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849236471189:android:ef1b41dcabbcb9d7c05a9c",
+        "android_client_info": {
+          "package_name": "com.example.diasaster_shield"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4gmyShoviYGCode8h0hHu4BB7UycrYHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
