@@ -15,6 +15,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
+
     from app import models
     
     register_routes(app)
@@ -31,6 +32,7 @@ def create_app():
         with app.app_context():
             load_ml_assets(app)
     
-    init_scheduler(app)
+    if not app.config.get("DISABLE_SCHEDULER", False):
+        init_scheduler(app)
 
     return app
