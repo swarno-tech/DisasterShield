@@ -30,14 +30,14 @@ class ResourceSection extends StatelessWidget {
 
               /// Summary
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   children: [
                     TextSpan(
                       text: "Available: ",
                       style: TextStyle(color: Colors.grey),
                     ),
                     TextSpan(
-                      text: "3",
+                      text: dashprovider.resources.length.toString(),
                       style: TextStyle(color: Colors.green),
                     ),
                     TextSpan(
@@ -45,7 +45,10 @@ class ResourceSection extends StatelessWidget {
                       style: TextStyle(color: Colors.grey),
                     ),
                     TextSpan(
-                      text: "2",
+                      text:
+                          (dashprovider.resources.length -
+                                  dashprovider.calCulateAvailableResources())
+                              .toString(),
                       style: TextStyle(color: Colors.blue),
                     ),
                   ],

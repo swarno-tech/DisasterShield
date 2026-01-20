@@ -24,8 +24,8 @@ class DashboardCards extends StatelessWidget {
         Expanded(
           child: DashboardStatCard(
             title: "Active Alerts",
-            value: 2,
-            total: 3,
+            value: dashboardProvider.alertList.length,
+            total: dashboardProvider.alertList.length,
             icon: Icons.people_alt_rounded,
             iconBgColor: Colors.orange.shade100,
             iconColor: Colors.orange,
