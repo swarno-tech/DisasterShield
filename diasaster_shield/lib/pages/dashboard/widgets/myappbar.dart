@@ -29,7 +29,7 @@ class MyAppBar extends StatelessWidget {
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.abc, color: Colors.white), // ?
+                child: Icon(Icons.shield, color: Colors.grey.shade400), // ?
               ),
               SizedBox(width: 15),
               Column(
