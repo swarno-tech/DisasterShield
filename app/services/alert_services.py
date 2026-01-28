@@ -17,7 +17,7 @@ TWILIO_FROM_NUMBER = os.getenv("TWILIO_FROM_NUMBER")
 # -------- TELEGRAM CONFIG (secret only) --------
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-demo_phone = "+91XXXXXXXXXX"
+ALERT_PHONE_NUMBER = os.getenv("ALERT_PHONE_NUMBER")
 
 
 # -------- MAIN ENTRY --------
@@ -36,18 +36,20 @@ def trigger_alert(zone):
     db.session.commit()
 
     message = format_alert(zone)
+    msg = twilio_alert()
 
     for user in users:
-        if user.phone_number:
-            try:
-                send_sms(demo_phone, message)
-            except Exception as e:
-                current_app.logger.error(
-                    f"Failed to send SMS to {user.phone_number}: {str(e)}"
-                )
+        # if user.phone_number:
+        #     try:
+        #         send_sms(demo_phone, message)
+        #     except Exception as e:
+        #         current_app.logger.error(
+        #             f"Failed to send SMS to {user.phone_number}: {str(e)}"
+        #         )
 
         if user.telegram_chat_id:
             send_telegram(TELEGRAM_CHAT_ID, message)
+    send_sms(ALERT_PHONE_NUMBER, msg)
 
     simulate_alert_responses(zone)
 
@@ -64,6 +66,10 @@ def format_alert(zone):
         "HELP - if you need emergency assistance"
     )
 
+def twilio_alert():
+    return (
+        "🚨 FLOOD RISK ALERT 🚨\n\n"
+    )
 
 # -------- TELEGRAM --------
 def send_telegram(chat_id, message):
